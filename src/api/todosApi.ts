@@ -14,7 +14,7 @@ export async function getTodoItems(): Promise<TodoItem[]> {
 
 export async function saveTodoItem(todoItem: TodoItem): Promise<TodoItem> {
   try {
-    const response = await fetch(baseUrl + (todoItem.id || ""), {
+    const response = await fetch(baseUrl, {
       method: todoItem.id ? "PUT" : "POST", // POST for create, PUT to update when id already exists.
       headers: { "content-type": "application/json" },
       body: JSON.stringify(todoItem),
