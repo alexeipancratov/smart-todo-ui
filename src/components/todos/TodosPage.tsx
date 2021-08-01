@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getTodoItems, saveTodoItem } from "../../api/todosApi";
+import { deleteTodoItem, getTodoItems, saveTodoItem } from "../../api/todosApi";
 import TodoItem from "../../models/TodoItem";
 import ActiveTodoItem from "./ActiveTodoItem";
 import AddTodo from "./AddTodo";
@@ -23,6 +23,13 @@ export default function TodosPage() {
     await saveTodoItem(item);
   };
 
+  const onItemDelete = async (id: string) => {
+    const filteredTodosItems = todoItems.filter((i) => i.id !== id);
+    setTodoItems(filteredTodosItems);
+
+    await deleteTodoItem(id);
+  };
+
   return (
     <>
       <h3>Manage Todos</h3>
@@ -30,7 +37,12 @@ export default function TodosPage() {
       {todoItems
         .filter((i) => !i.isCompleted)
         .map((i) => (
-          <ActiveTodoItem key={i.id} item={i} onMarkAsDone={onMarkAsDone} />
+          <ActiveTodoItem
+            key={i.id}
+            item={i}
+            onMarkAsDone={onMarkAsDone}
+            onDelete={onItemDelete}
+          />
         ))}
       <h4>Completed tasks</h4>
       {todoItems
