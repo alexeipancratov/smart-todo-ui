@@ -12,6 +12,15 @@ export default function TodosPage() {
     getTodoItems().then((todos) => setTodoItems(todos));
   }, []);
 
+  const onAddItem = async (title: string) => {
+    const todoItem = new TodoItem({
+      title: title,
+    });
+    setTodoItems([...todoItems, todoItem]);
+
+    await saveTodoItem(todoItem);
+  };
+
   const onMarkAsDone = async (id: string) => {
     const index = todoItems.findIndex((i) => i.id === id);
     const todos = [...todoItems];
@@ -33,7 +42,7 @@ export default function TodosPage() {
   return (
     <>
       <h3>Manage Todos</h3>
-      <AddTodo />
+      <AddTodo onAddItem={onAddItem} />
       {todoItems
         .filter((i) => !i.isCompleted)
         .map((i) => (
