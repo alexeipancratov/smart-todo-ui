@@ -16,31 +16,36 @@ export default function TodosPage() {
     const todoItem = new TodoItem({
       title: title,
     });
-    setTodoItems([...todoItems, todoItem]);
 
-    await saveTodoItem(todoItem);
+    const postedTodoItem = await saveTodoItem(todoItem);
+    todoItem.id = postedTodoItem.id;
+    todoItem.dateTimeCreated = postedTodoItem.dateTimeCreated;
+
+    setTodoItems([...todoItems, todoItem]);
   };
 
   const onItemEdit = async (id: string, newTitle: string) => {
     const index = todoItems.findIndex((i) => i.id === id);
-    const todos = [...todoItems];
-    const item = { ...todos[index] };
+    const item = { ...todoItems[index] };
     item.title = newTitle;
-    todos[index] = item;
-    setTodoItems(todos);
 
     await saveTodoItem(item);
+
+    const todos = [...todoItems];
+    todos[index] = item;
+    setTodoItems(todos);
   };
 
   const onMarkAsDone = async (id: string) => {
     const index = todoItems.findIndex((i) => i.id === id);
-    const todos = [...todoItems];
-    const item = { ...todos[index] };
+    const item = { ...todoItems[index] };
     item.isCompleted = true;
-    todos[index] = item;
-    setTodoItems(todos);
 
     await saveTodoItem(item);
+
+    const todos = [...todoItems];
+    todos[index] = item;
+    setTodoItems(todos);
   };
 
   const onItemDelete = async (id: string) => {
@@ -69,7 +74,7 @@ export default function TodosPage() {
       {todoItems
         .filter((i) => i.isCompleted)
         .map((i) => (
-          <CompletedTodoItem key={i.id} item={i} />
+          <CompletedTodoItem key={i.id} item={i} onDelete={onItemDelete} />
         ))}
     </>
   );

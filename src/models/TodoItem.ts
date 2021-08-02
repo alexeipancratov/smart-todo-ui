@@ -2,7 +2,7 @@ export default class TodoItem {
   id: string = "";
   title: string = "";
   dateTimeCreated: string = "";
-  dateTimeCompleted: string = "";
+  dateTimeCompleted: string | null = null;
   isCompleted: boolean = false;
 
   constructor(obj?: Partial<TodoItem>) {
