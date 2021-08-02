@@ -39,7 +39,7 @@ export default function ActiveTodoItem({
   };
 
   return (
-    <Card className="mb-2">
+    <Card className="border-info mb-2">
       <Card.Body>
         <div className="todo">
           <span>{item.title}</span>
@@ -47,10 +47,16 @@ export default function ActiveTodoItem({
             <Button variant="outline-secondary" onClick={onToggleEditModeClick}>
               Edit
             </Button>
-            <Button variant="outline-success" onClick={onDoneClick}>
+            <Button
+              variant="outline-success"
+              onClick={onDoneClick}
+              title="Mark as Completed">
               ✓
             </Button>
-            <Button variant="outline-danger" onClick={onDeleteClick}>
+            <Button
+              variant="outline-danger"
+              onClick={onDeleteClick}
+              title="Delete">
               ✕
             </Button>
           </div>

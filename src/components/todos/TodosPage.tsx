@@ -52,7 +52,7 @@ export default function TodosPage() {
 
   return (
     <>
-      <h3>Manage Todos</h3>
+      <h3>Manage ToDos</h3>
       <AddTodo onAddItem={onAddItem} />
       {todoItems
         .filter((i) => !i.isCompleted)
@@ -65,7 +65,7 @@ export default function TodosPage() {
             onDelete={onItemDelete}
           />
         ))}
-      <h4>Completed tasks</h4>
+      <h4>Completed</h4>
       {todoItems
         .filter((i) => i.isCompleted)
         .map((i) => (

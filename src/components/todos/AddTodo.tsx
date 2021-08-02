@@ -7,6 +7,7 @@ export default function AddTodo({ onAddItem }: { onAddItem: Function }) {
   const onSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     onAddItem(title);
+    setTitle("");
   };
 
   const onTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -16,13 +17,13 @@ export default function AddTodo({ onAddItem }: { onAddItem: Function }) {
   return (
     <Form onSubmit={onSubmit}>
       <FormGroup>
-        <Form.Label htmlFor="title">New ToDo</Form.Label>
         <Form.Control
           type="text"
           id="title"
           className="input"
           value={title}
           required
+          placeholder="New ToDo"
           onChange={onTitleChange}></Form.Control>
       </FormGroup>
       <Button type="submit" variant="primary mb-3 mt-3">
