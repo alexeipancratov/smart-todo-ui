@@ -22,10 +22,11 @@ export default function AddTodo({ onAddItem }: { onAddItem: Function }) {
           id="title"
           className="input"
           value={title}
+          required
           onChange={onTitleChange}></Form.Control>
       </FormGroup>
       <Button type="submit" variant="primary mb-3 mt-3">
-        Create
+        Add
       </Button>
     </Form>
   );

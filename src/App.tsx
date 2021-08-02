@@ -6,8 +6,12 @@ function App() {
   return (
     <div className="app">
       <div className="container">
-        <h1>Smart ToDo</h1>
-        <TodosPage />
+        <div className="row">
+          <div className="col-md-8 offset-md-2">
+            <h1 className="text-center mb-4 mt-2">Smart ToDo</h1>
+            <TodosPage />
+          </div>
+        </div>
       </div>
     </div>
   );

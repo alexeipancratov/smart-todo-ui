@@ -21,6 +21,17 @@ export default function TodosPage() {
     await saveTodoItem(todoItem);
   };
 
+  const onItemEdit = async (id: string, newTitle: string) => {
+    const index = todoItems.findIndex((i) => i.id === id);
+    const todos = [...todoItems];
+    const item = { ...todos[index] };
+    item.title = newTitle;
+    todos[index] = item;
+    setTodoItems(todos);
+
+    await saveTodoItem(item);
+  };
+
   const onMarkAsDone = async (id: string) => {
     const index = todoItems.findIndex((i) => i.id === id);
     const todos = [...todoItems];
@@ -49,6 +60,7 @@ export default function TodosPage() {
           <ActiveTodoItem
             key={i.id}
             item={i}
+            onEdit={onItemEdit}
             onMarkAsDone={onMarkAsDone}
             onDelete={onItemDelete}
           />
