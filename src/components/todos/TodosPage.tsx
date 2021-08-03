@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Button, Modal } from "react-bootstrap";
 import { deleteTodoItem, getTodoItems, saveTodoItem } from "../../api/todosApi";
 import TodoItem from "../../models/TodoItem";
 import ActiveTodoItem from "./ActiveTodoItem";
@@ -7,21 +8,36 @@ import CompletedTodoItem from "./CompletedTodoItem";
 
 export default function TodosPage() {
   const [todoItems, setTodoItems] = useState<TodoItem[]>([]);
+  const [errorModalMessage, setErrorModalMessage] = useState<string>("");
+  const [showErrorModal, setShowErrorModal] = useState<boolean>(false);
 
   useEffect(() => {
-    getTodoItems().then((todos) => setTodoItems(todos));
+    getTodoItems()
+      .then((todos) => setTodoItems(todos))
+      .catch(handleErrorResponse);
   }, []);
+
+  const handleErrorModalClose = () => setShowErrorModal(false);
+
+  const handleErrorResponse = (e: Error) => {
+    setErrorModalMessage(e.message);
+    setShowErrorModal(true);
+  };
 
   const onAddItem = async (title: string) => {
     const todoItem = new TodoItem({
       title: title,
     });
 
-    const postedTodoItem = await saveTodoItem(todoItem);
-    todoItem.id = postedTodoItem.id;
-    todoItem.dateTimeCreated = postedTodoItem.dateTimeCreated;
+    try {
+      const postedTodoItem = await saveTodoItem(todoItem);
+      todoItem.id = postedTodoItem.id;
+      todoItem.dateTimeCreated = postedTodoItem.dateTimeCreated;
 
-    setTodoItems([...todoItems, todoItem]);
+      setTodoItems([...todoItems, todoItem]);
+    } catch (error) {
+      handleErrorResponse(error);
+    }
   };
 
   const onItemEdit = async (id: string, newTitle: string) => {
@@ -29,11 +45,15 @@ export default function TodosPage() {
     const item = { ...todoItems[index] };
     item.title = newTitle;
 
-    await saveTodoItem(item);
+    try {
+      await saveTodoItem(item);
 
-    const todos = [...todoItems];
-    todos[index] = item;
-    setTodoItems(todos);
+      const todos = [...todoItems];
+      todos[index] = item;
+      setTodoItems(todos);
+    } catch (error) {
+      handleErrorResponse(error);
+    }
   };
 
   const onMarkAsDone = async (id: string) => {
@@ -41,18 +61,26 @@ export default function TodosPage() {
     const item = { ...todoItems[index] };
     item.isCompleted = true;
 
-    await saveTodoItem(item);
+    try {
+      await saveTodoItem(item);
 
-    const todos = [...todoItems];
-    todos[index] = item;
-    setTodoItems(todos);
+      const todos = [...todoItems];
+      todos[index] = item;
+      setTodoItems(todos);
+    } catch (error) {
+      handleErrorResponse(error);
+    }
   };
 
   const onItemDelete = async (id: string) => {
     const filteredTodosItems = todoItems.filter((i) => i.id !== id);
     setTodoItems(filteredTodosItems);
 
-    await deleteTodoItem(id);
+    try {
+      await deleteTodoItem(id);
+    } catch (error) {
+      handleErrorResponse(error);
+    }
   };
 
   return (
@@ -76,6 +104,17 @@ export default function TodosPage() {
         .map((i) => (
           <CompletedTodoItem key={i.id} item={i} onDelete={onItemDelete} />
         ))}
+      <Modal show={showErrorModal} onHide={handleErrorModalClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Error</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{errorModalMessage}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleErrorModalClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 }
