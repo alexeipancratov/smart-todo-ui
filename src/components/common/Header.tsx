@@ -3,14 +3,6 @@ import { NavLink } from "react-router-dom";
 
 export default function Header() {
   return (
-    // <nav>
-    //   <NavLink to="/" activeStyle={activeStyle}>
-    //     Manage TODOs
-    //   </NavLink>
-    //   <NavLink to="/about" activeStyle={activeStyle}>
-    //     About
-    //   </NavLink>
-    // </nav>
     <Navbar bg="light" variant="light">
       <Container className="justify-content-center">
         <Nav>

@@ -29,39 +29,37 @@ describe("ActiveTodoItem component", () => {
       }),
     });
 
-    const titleElement = screen.getByText(todoItemTitle);
-
-    expect(titleElement).toBeTruthy();
+    expect(screen.getByText(todoItemTitle)).toBeVisible();
   });
 
   describe("Edit Todo item form", () => {
-    it("should display edit form on clicking the Edit button", async () => {
+    it("should display edit form on clicking the Edit button", () => {
       const { container } = renderActiveTodoItem();
 
       fireEvent.click(screen.getByText("Edit"));
       const form = container.getElementsByTagName("form").item(0);
 
-      expect(form).toBeTruthy();
+      expect(form).toBeVisible();
     });
 
-    it("edit form should dissapear after clicking the Cancel button", async () => {
+    it("edit form should dissapear after clicking the Cancel button", () => {
       const { container } = renderActiveTodoItem();
 
       fireEvent.click(screen.getByText("Edit"));
       let form = container.getElementsByTagName("form").item(0);
-      expect(form).toBeTruthy();
+      expect(form).toBeVisible();
 
       fireEvent.click(screen.getByText("Cancel"));
       form = container.getElementsByTagName("form").item(0);
       expect(form).toBeFalsy();
     });
 
-    it("edit form should dissapear after clicking the Edit button again", async () => {
+    it("edit form should dissapear after clicking the Edit button again", () => {
       const { container } = renderActiveTodoItem();
 
       fireEvent.click(screen.getByText("Edit"));
       let form = container.getElementsByTagName("form").item(0);
-      expect(form).toBeTruthy();
+      expect(form).toBeVisible();
 
       fireEvent.click(screen.getByText("Edit"));
       form = container.getElementsByTagName("form").item(0);
