@@ -6,6 +6,6 @@ This is the UI part of the Smart ToDo web application. The API part is located a
 
 ## Technical stack
 * React v17
-* react-router-dom
+* React Router DOM
 * Fetch API
-* react-testing-library
+* React Testing Library
